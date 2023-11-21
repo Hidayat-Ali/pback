@@ -9,7 +9,7 @@ const postRoute = require("./routes/posts");
 const cateRoute = require("./routes/categories");
 dotenv.config();
 const corsOptions = {
-  origin: "http://localhost:4200",
+  origin: "https://pfront.onrender.com/",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true,
   optionsSuccessStatus: 204,
@@ -19,7 +19,14 @@ app.use(cors(corsOptions));
 app.use(express.json());
 const url =
   process.env.MONGODB_URI ||
-  "mongodb+srv://HidayatAli:hidayatdb121@cluster0.hqjmbvx.mongodb.net/";
+  "mongodb+srv://HidayatAli:hidayatdb121@cluster0.hqjmbvx.mongodb.net/?retryWrites=true&w=majority";
+
+const port = process.env.PORT || 3000;
+app.use("/api/auth", authRoute);
+app.use("/api/user", userRoute);
+app.use("/api/posts", postRoute);
+app.use("/api/categories", cateRoute);
+console.log("Before MongoDB connection attempt");
 mongoose
   .connect(url, {
     useNewUrlParser: true,
@@ -27,18 +34,11 @@ mongoose
   })
   .then(() => {
     console.log("Connected to MongoDB");
+    app.listen(3000, () => {
+      console.log("Backend is running");
+    });
   })
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
-app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
-app.use("/api/posts", postRoute);
-app.use("/api/categories", cateRoute);
-const port = process.env.PORT || 3000;
-// if (process.env.NODE_ENV === "production") {
-//   app.use(express.static("frontend/build"));
-// }
-app.listen(port, () => {
-  console.log("backend is running");
-});
+console.log("After attempting MongoDB connection");
