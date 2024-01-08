@@ -24,9 +24,27 @@ router.delete("/:id", async (req, res) => {
   }
 });
 // get all post from here
-router.get("/:id", async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  res.status(200).json(post);
+router.get("/:title", async (req, res) => {
+  // const post = await Post.findOne(req.params.title);
+  // res.status(200).json(post);
+
+  try {
+    const encodedTitle = req.params.title;
+    const decodedTitle = decodeURIComponent(encodedTitle);
+
+    // Query the database for the post with the decoded title
+    const post = await Post.findOne({ title: decodedTitle });
+
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    // Return the post as JSON
+    res.json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 router.get("/", async (req, res) => {
