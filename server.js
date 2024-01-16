@@ -9,7 +9,7 @@ const postRoute = require("./routes/posts");
 const cateRoute = require("./routes/categories");
 dotenv.config();
 const corsOptions = {
-  origin: ["https://pfront.onrender.com", "http://localhost:4200"],
+  origin: ["https://www.hidayat-ahmadi.tech", "http://localhost:4200"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 204,
