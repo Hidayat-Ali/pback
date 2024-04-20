@@ -24,11 +24,12 @@ app.use("/api/categories", cateRoute);
 console.log("Before MongoDB connection attempt");
 
 // / Serve Angular App
-const angularDistPath = path.join(__dirname, "pback");
+const angularDistPath = path.join(__dirname, "blog-api");
 app.use(express.static(angularDistPath));
+console.log(`Angular app path: ${angularDistPath}`);
 
-// Catch all other routes and serve the Angular app
 app.get("*", (req, res) => {
+  console.log(`Requested URL: ${req.originalUrl}`);
   res.sendFile(path.join(angularDistPath, "index.html"));
 });
 
