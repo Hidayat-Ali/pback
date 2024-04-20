@@ -26,8 +26,11 @@ console.log("Before MongoDB connection attempt");
 // / Serve Angular App
 const angularDistPath = path.join(__dirname, "pfront");
 app.use(express.static(angularDistPath));
-console.log(`Angular app path: ${angularDistPath}`);
-
+// console.log(`Angular app path: ${angularDistPath}`);
+app.use((req, res, next) => {
+  console.log(`Received request: ${req.method} ${req.url}`);
+  next();
+});
 app.get("*", (req, res) => {
   console.log(`Requested URL: ${req.originalUrl}`);
   res.sendFile(path.join(angularDistPath, "index.html"));
