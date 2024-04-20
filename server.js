@@ -7,6 +7,7 @@ const authRoute = require("./routes/auth");
 const userRoute = require("./routes/users");
 const postRoute = require("./routes/posts");
 const cateRoute = require("./routes/categories");
+const path = require("path");
 dotenv.config();
 const corsOptions = {
   origin: ["https://www.hidayat-ahmadi.tech", "http://localhost:4200"],
@@ -21,6 +22,16 @@ app.use("/api/user", userRoute);
 app.use("/api/posts", postRoute);
 app.use("/api/categories", cateRoute);
 console.log("Before MongoDB connection attempt");
+
+// / Serve Angular App
+const angularDistPath = path.join(__dirname, "pback");
+app.use(express.static(angularDistPath));
+
+// Catch all other routes and serve the Angular app
+app.get("*", (req, res) => {
+  res.sendFile(path.join(angularDistPath, "index.html"));
+});
+
 const url =
   process.env.MONGODB_URI ||
   "mongodb+srv://HidayatAli:hidayatdb121@cluster0.hqjmbvx.mongodb.net/?retryWrites=true&w=majority";
