@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Comment = require("../models/comment");
 const postSchema = mongoose.Schema(
   {
     title: {
@@ -27,6 +28,7 @@ const postSchema = mongoose.Schema(
       type: Array,
       required: false,
     },
+    comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   },
   { timestamps: true }
 );
