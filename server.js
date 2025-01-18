@@ -10,7 +10,7 @@ const cateRoute = require("./routes/categories");
 const path = require("path");
 dotenv.config();
 const corsOptions = {
-  origin: ["https://www.mhidayat.live/.", "http://localhost:4200"],
+  origin: ["https://www.mhidayat.live", "http://localhost:4200"],
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS",
   credentials: true,
   optionsSuccessStatus: 204,
